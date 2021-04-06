@@ -27,12 +27,11 @@ event zeek_init()
     SumStats::create([$name = "finding scanners",
                       $epoch = 10min,
                       $reducers = set(r1,r2,r3),
-                      # Provide a threshold.
                       $epoch_result(ts: time, key: SumStats::Key, result: SumStats::Result)={
                           local s1 = result["404"];
 						  local s2 = result["Unique404Url"];
 						  local s3 = result["response"];
-                          if(s1$sum>2 && 1.0*s1$sum / s3$sum >0.2 && 1.0*s2$unique/s1$sum>0.5){
+                          if(s1$sum > 2 && 1.0*s1$sum / s3$sum > 0.2 && 1.0*s2$unique / s1$sum>0.5){
                               print fmt("%s is a scanner with %d scan attemps on %d urls",key$host,s1$sum,s2$unique);
                           } 
                       }]);
